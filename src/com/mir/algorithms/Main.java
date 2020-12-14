@@ -21,6 +21,7 @@ public class Main {
 
         for (int i : intArray){
             System.out.println(i);
+
         }
     }
 }
