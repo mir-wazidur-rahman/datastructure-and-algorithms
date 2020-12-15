@@ -18,7 +18,6 @@ public class ArrayListTest {
             }
         });
 
-
 //       Arrays.sort(arrival);
         for (Integer i : loadcpy) System.out.println(i);
     }
