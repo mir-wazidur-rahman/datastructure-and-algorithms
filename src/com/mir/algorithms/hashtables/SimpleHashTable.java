@@ -71,11 +71,12 @@ public class SimpleHashTable {
             hashedKey = (hashedKey + 1) % hashtable.length;//keep looking
         }
 
-        if (stopIndex == hashedKey){// not found in the array
-            return -1;
-        }else{
-            return hashedKey;
-        }
+      if (hashtable[hashedKey] != null
+            && hashtable[hashedKey].key.equals(key)){
+          return hashedKey;
+      }else{
+          return -1;
+      }
     }
 
     private boolean occupied(int index) {
@@ -86,8 +87,30 @@ public class SimpleHashTable {
         for (int i=0 ; i < hashtable.length ; i++) {
             if (null == hashtable[i]) System.out.println("empty");
             else
-                System.out.println("Position: " + i + ":" +hashtable[i].employee);
+                System.out.println("Position: " + i + ":" + hashtable[i].employee);
         }
+    }
+
+    private Employee remove(String key){
+        int hashedKey = findKey(key);
+
+        if (hashedKey == -1) {
+            System.out.println("Employee does not exist");
+            return null;
+        }
+
+        Employee employee = hashtable[hashedKey].employee;
+        hashtable[hashedKey] = null;
+        StoredEmployee[] oldHashTable = hashtable;
+        hashtable = new StoredEmployee[hashtable.length];
+
+        for (int i=0 ; i < oldHashTable.length ; i++){
+            if(oldHashTable[i] != null){
+                put(oldHashTable[i].key,oldHashTable[i].employee);
+            }
+        }
+
+        return employee;
     }
 
     public static void main(String[] args) {
@@ -107,5 +130,10 @@ public class SimpleHashTable {
         sht.printHashTable();
 
         System.out.println("Retrieving key Rahman :: " + sht.get("end"));
+
+        System.out.println (sht.remove("Doe"));
+        System.out.println (sht.remove("end"));
+
+        sht.printHashTable();
     }
 }

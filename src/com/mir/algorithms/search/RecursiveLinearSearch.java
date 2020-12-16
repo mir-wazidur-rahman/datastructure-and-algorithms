@@ -15,6 +15,6 @@ public class RecursiveLinearSearch {
     public static void main(String[] args) {
 
         int[] input = {1,5,-5,3,2,15};
-        System.out.println(search(input, 5, 0));
+        System.out.println(search(input, 18, 0));
     }
 }
