@@ -14,13 +14,21 @@ public class ArrayQueue {
 
     public void add(Employee employee){
 
-        if (back == queue.length){
+        if (size() == queue.length - 1){
+            int numItems = size();// saving to reset the back after unwrapping the queue
             Employee[] newArray = new Employee[2 * queue.length];
-            System.arraycopy(queue,0,newArray,0,queue.length);
+            //unwrapping the queue
+            System.arraycopy(queue,front,newArray,0,queue.length - front);
+            System.arraycopy(queue,0,newArray,queue.length - front,back);
             queue =  newArray;
+            front = 0;
+            back = numItems;
         }
 
-        queue[back++] = employee;
+        queue[back] = employee;
+        //checking if there is any room in the queue to increase back side
+        if (back < queue.length - 1) back++;
+        else  back = 0;//setting back to front, thus making it a circular queue
     }
 
     public Employee remove(){
@@ -29,8 +37,13 @@ public class ArrayQueue {
         Employee employee = queue[front];
         queue[front] = null;
         front++;
+
         //removed the last employee
-        if(size() == 0) front = back =0;
+        if(size() == 0) {
+            front = back =0;
+        }else if(front == queue.length){
+            front = 0;
+        }
 
         return employee;
     }
@@ -43,13 +56,29 @@ public class ArrayQueue {
     }
 
     public int size(){
-        return (back - front);
+
+        //queue is not wrapped yet
+        if (front <=  back)  return (back - front);
+
+        else return (back - front + queue.length);
     }
 
     public void printQueue(){
-        for (int i = front; i < back ; i++){
-            System.out.println(queue[i]);
+
+        //printing unwrapped queue
+        if (front <= back){
+            for (int i = front; i < back ; i++){
+                System.out.println(queue[i]);
+            }
         }
+        else{
+            //printing front to end of queue length
+            for (int i = front ; i < queue.length ; i++) System.out.println(queue[i]);
+
+            //printing from 0th element to back
+            for (int i = 0; i < back ; i++) System.out.println(queue[i]);
+        }
+
     }
 
     public static void main(String[] args) {
@@ -60,24 +89,18 @@ public class ArrayQueue {
         Employee nKumari = new Employee("Neha", "Kumari", 5830);
         Employee billEnd = new Employee("Bill", "End", 78);
 
-        ArrayQueue queue = new ArrayQueue(10);
+        ArrayQueue queue = new ArrayQueue(5);
         queue.add(janeJones);
         queue.add(johnDoe);
         queue.add(mirRahman);
         queue.add(nKumari);
         queue.add(billEnd);
+        queue.add(janeJones);
 
-//        queue.printQueue();
-
-        queue.remove();
-        queue.remove();
-        queue.remove();
-        queue.remove();
-        queue.remove();
-//        queue.remove();
         queue.printQueue();
 
-        queue.add(mirRahman);
+
+
 
 //        System.out.println(queue.peek());
 

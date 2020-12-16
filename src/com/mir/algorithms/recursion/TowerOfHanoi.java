@@ -22,6 +22,6 @@ public class TowerOfHanoi {
     }
 
     public static void main(String[] args) {
-        solve(5,'A','B','C');
+        solve(3,'A','B','C');
     }
 }
